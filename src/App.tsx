@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ReactPlayer from 'react-player';
 
 interface Video {
   id: number;
   title: string;
+  filename: string;
 }
 
 const App: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
+  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
+
+  const handleVideoClick = (video: Video) => {
+    setSelectedVideo(video);
+  };
+  
+  const playVideo = (videoId: number) => {
+    const video = videos.find((v) => v.id === videoId);
+    if (video) {
+      setSelectedVideo(video);
+    }
+  };
 
   useEffect(() => {
     axios.get<Video[]>('http://localhost:3001/videos')
       .then((response) => {
+        console.log(response)
         setVideos(response.data);
       })
       .catch((error) => {
@@ -25,20 +40,21 @@ const App: React.FC = () => {
       <ul>
         {videos.map((video) => (
           <li key={video.id}>
-            <button onClick={() => playVideo(video.id)}>
+            <button onClick={() => handleVideoClick(video)}>
               {video.title}
             </button>
           </li>
         ))}
       </ul>
+      {selectedVideo && (
+        <ReactPlayer
+          url={`http://localhost:3001/video/${selectedVideo.id}`}
+          controls
+          playing
+        />
+      )}
     </div>
   );
 };
-
-function playVideo(videoId: number) {
-  // Adicione aqui a lógica para reproduzir o vídeo selecionado.
-  // Você pode usar bibliotecas de players de vídeo como o video.js, react-player, entre outros.
-  console.log(`Reproduzindo o vídeo com ID ${videoId}`);
-}
 
 export default App;
