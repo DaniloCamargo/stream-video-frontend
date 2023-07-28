@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-import { PlayFill } from 'react-bootstrap-icons';
+import { PlayFill, XCircleFill } from 'react-bootstrap-icons';
 import Modal from 'react-modal';
 
 interface Video {
@@ -11,6 +11,18 @@ interface Video {
   filename: string;
   thumb: string;
 }
+
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+  },
+  content: {
+    backgroundColor: '#331b49',
+    border: 'none',
+    borderRadius: '8px',
+    margin: 'auto',
+  },
+};
 
 const App: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -55,7 +67,7 @@ const App: React.FC = () => {
             <Card>
               <img src={`http://localhost:3001/images/${video.thumb}`} alt="" />
               <h3 className="card-title">{video.title}</h3>
-              <Button onClick={() => handleVideoClick(video)} variant="outline-primary">
+              <Button onClick={() => handleVideoClick(video)} variant="outline-purple">
                 <PlayFill size="30" />
               </Button>
             </Card>
@@ -66,17 +78,22 @@ const App: React.FC = () => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Vídeo"
+        style={customStyles}
       >
-        {selectedVideo && (
-          <ReactPlayer
-            url={`http://localhost:3001/video/${selectedVideo.id}`}
-            controls
-            playing
-            width="100%"
-            height="auto"
-          />
-        )}
-        <button onClick={closeModal}>Fechar</button>
+        <Row className='justify-content-center h-100 position-relative'>
+          <Col className='col-auto h-100'>
+            {selectedVideo && (
+              <ReactPlayer
+              url={`http://localhost:3001/video/${selectedVideo.id}`}
+              controls
+              playing
+              width="auto"
+              height="100%"
+              />
+            )}
+            <button className='btn btn-fixed-close btn-outline-purple' onClick={closeModal}><XCircleFill size="30"/></button>
+          </Col>
+        </Row>
       </Modal>
     </Container>
   );

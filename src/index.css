@@ -17,7 +17,7 @@ code {
   background-color: #8a2be2;
 }
 
-.btn-outline-primary {
+.btn-outline-purple {
   --bs-btn-color: #8a2be2;
   --bs-btn-border-color: #8a2be2;
   --bs-btn-hover-color: #fff;
@@ -32,4 +32,11 @@ code {
   --bs-btn-disabled-bg: transparent;
   --bs-btn-disabled-border-color: #8a2be2;
   --bs-gradient: none;
+}
+
+.btn-fixed-close {
+  position: fixed;
+  top: 45px;
+  right: 45px;
+  z-index: 1030;
 }
