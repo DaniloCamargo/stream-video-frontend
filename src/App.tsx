@@ -8,6 +8,7 @@ interface Video {
   id: number;
   title: string;
   filename: string;
+  thumb: string;
 }
 
 const App: React.FC = () => {
@@ -28,7 +29,6 @@ const App: React.FC = () => {
   useEffect(() => {
     axios.get<Video[]>('http://localhost:3001/videos')
       .then((response) => {
-        console.log(response)
         setVideos(response.data);
       })
       .catch((error) => {
@@ -37,12 +37,15 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Container>
-      <h1 className="mt-4">Lista de Vídeos</h1>
+    <Container className="text-center">
+      <div className="bg-purple text-white py-2 my-4">
+        <h1 className="">Lista de Vídeos</h1>
+      </div>
       <Row>
         {videos.map((video) => (
           <Col key={video.id} md={4} className="mb-3">
             <Card>
+              <img src={`http://localhost:3001/images/${video.thumb}`} alt="" />
               <h3 className="card-title">{video.title}</h3>
               <Button onClick={() => handleVideoClick(video)} variant="outline-primary">
                 <PlayFill size="30" />
