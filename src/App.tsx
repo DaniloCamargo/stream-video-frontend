@@ -65,7 +65,9 @@ const App: React.FC = () => {
         {videos.map((video) => (
           <Col key={video.id} md={4} className="mb-3 text-center col-3">
             <Card>
-              <img src={`http://localhost:3001/images/${video.thumb}`} alt="" />
+              <div className="thumbnail-container">
+                <img src={`http://localhost:3001/images/${video.thumb}`} alt="" />
+              </div>
               <h3 className="card-title">{video.title}</h3>
               <Button onClick={() => handleVideoClick(video)} variant="outline-purple">
                 <PlayFill size="30" />
